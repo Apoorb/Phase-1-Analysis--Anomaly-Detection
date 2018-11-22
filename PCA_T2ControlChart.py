@@ -69,7 +69,7 @@ cum_var_exp = np.cumsum(var_exp)
 
 #******************************************************************************
 #Pareto Plot
-Ncomp=5
+Ncomp=15
 Sns_dt=pd.DataFrame({'x1':['PC %s' %(i+1) for i in range(0,Ncomp)],'y1':var_exp[:Ncomp]})
 Sns_dt2=pd.DataFrame({'x1':['PC %s' %(i+1) for i in range(0,Ncomp)],'y1':cum_var_exp[:Ncomp]
 })
@@ -89,6 +89,7 @@ ax.plot(Sns_dt3['x1'],Sns_dt3['y1'],marker='o',color='black')
 ax.set(xlabel="Principle Component",ylabel="Eigen Value (Variance for\n a Principle Component)",title="Scree Plot")
 fig2.savefig("ScreePlt.png")
 
+NcompF=5
 # Another way to plot
 #******************************************************************************
 #sns.catplot(x="x1",y="y1",hue=None,kind='bar',data=Sns_dt,color="blue",ax=ax)
@@ -126,7 +127,9 @@ fig2.savefig("ScreePlt.png")
 #Y=X_std.dot(matrix_w)
 
 #******************************************************************************
-pca = PCA(n_components=Ncomp)
+pca = PCA(n_components=NcompF)
 principalComponents = pca.fit_transform(X_std)
-principalDf = pd.DataFrame(data = principalComponents
-             , columns = ['principal component 1', 'principal component 2'])
+principalDf = pd.DataFrame(data = principalComponents)
+principalDf.columns=['PC%s'%(i+1) for i in range(NcompF)]
+principalDf.rename({0:"PC1"},axis=1)
+principalDf.to_csv("PrinCompDat.csv")
