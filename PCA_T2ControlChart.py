@@ -24,7 +24,7 @@ from sklearn.decomposition import PCA
 #plotly.tools.set_credentials_file(username=Plotly_cred.Plotly_cred1[0],api_key=Plotly_cred.Plotly_cred1[1])
 
 # Corrlation Switch
-Is_Cov =True
+Is_Cov =False
 os.chdir("/Users/Apoorb/Documents/GitHub/Phase-1-Analysis--Anomaly-Detection")
 X=pd.read_excel("Project_dataset.xlsx",header=None)
 
