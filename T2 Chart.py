@@ -28,9 +28,11 @@ else:
 
 
 def Phase1T2(df,iter1,p=3,alpha=0.05,ulim=40):
-    S=  np.cov(df.T) #Alternate way to get covariance
-    X_bar= np.array(df.mean(axis=0))
-    X=df.values # Get np array
+    Ind=df.obs
+    X=df.drop("obs",axis=1).copy()
+    S=  np.cov(X.T) #Alternate way to get covariance
+    X_bar= np.array(X.mean(axis=0))
+    X=X.values # Get np array
     S_inv=np.linalg.inv(S)
     T2=np.empty((X.shape[0],1))
     for i in range(X.shape[0]):
@@ -42,17 +44,16 @@ def Phase1T2(df,iter1,p=3,alpha=0.05,ulim=40):
     dof=p
     UCL=chi2.ppf(1-alpha,dof)
     fig,ax = plt.subplots()
-    ax.plot(range(1,T2.shape[0]+1),T2,marker="o")
+    ax.plot(Ind,T2,marker="o")
     ax.axhline(y=UCL, color='r', linestyle='-')
     ax.set(xlabel="Observation",ylabel=r"$T^2$",title=r"$T^2$ Chart with $\alpha$=0.05 (Iteration %s)"%iter1)
     ax.set_ylim(0,ulim)
     plt.close()
     # Get In Control Points
     df1=df.copy()
-    df1.loc[:,"obs"]=df1.index+1
     df1.loc[:,"UCL"]=UCL
     df1.loc[:,"T2"]=T2.reshape(df1.shape[0])
-    df1.loc[:,"delRow"]=np.where(df1['T2']>=df1['UCL'],True, False)
+    df1.loc[:,"delRow"]=np.where(df1['T2']>df1['UCL'],True, False)
     #Delete the following obs
     df1.loc[df1.delRow,'obs']
     #Deleting the obs
@@ -74,6 +75,8 @@ def Phase1T2(df,iter1,p=3,alpha=0.05,ulim=40):
 #dat4=Res3['Ndf'].loc[:,["PC1","PC2","PC3"]]
 #Res4=Phase1T2(df=dat4)
 
+
+dat.loc[:,"obs"]=dat.index+1
 Di_Res=dict()
 Di_ResF=dict()
 i=1
@@ -90,7 +93,7 @@ while True:
     Di_ResF[i]=Res1["Fig"]
     if(dat.shape[0]==Res1['Ndf'].shape[0]):
         break
-    dat=Res1['Ndf'].loc[:,["PC1","PC2","PC3"]].copy()
+    dat=Res1['Ndf'].loc[:,["obs","PC1","PC2","PC3"]].copy()
     i+=1
     
 Di_ResF[1]
