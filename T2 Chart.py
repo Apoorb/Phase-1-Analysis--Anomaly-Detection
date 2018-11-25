@@ -6,7 +6,9 @@ Created on Wed Nov 21 22:16:42 2018
 @author: Apoorba
 #Purpose : Create T**2 control chart
 """
-%reset -f
+from IPython import get_ipython
+ipython = get_ipython()
+ipython.magic("%reset -f")
 
 import pandas as pd
 import os 
