@@ -43,7 +43,7 @@ def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.05,ulim=50):
     #alpha=0.05
     dof=p
     UCL=chi2.ppf(1-alpha,dof)
-    fig,ax = plt.subplots()
+    fig,ax = plt.subplots(figsize=(20,10))
     ax.plot(Ind,T2,marker="o",label="Current Iteration")
     ax.axhline(y=UCL, color='r', linestyle='-')
     ax.plot(OC_pnt.obs,OC_pnt.T2,'*r',label="Out of Control Points from Previous Iteration")
