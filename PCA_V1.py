@@ -12,6 +12,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+import matplotlib.pylab as pylab
+
 #import plotly
 #import plotly.plotly as py
 #from plotly.graph_objs import *
@@ -78,6 +80,12 @@ Ncomp=15
 Sns_dt=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':var_exp[:Ncomp]})
 Sns_dt2=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':cum_var_exp[:Ncomp]
 })
+params = {'legend.fontsize': 'xx-large',
+         'axes.labelsize': 'xx-large',
+         'axes.titlesize':'xx-large',
+         'xtick.labelsize':'xx-large',
+         'ytick.labelsize':'xx-large'}
+pylab.rcParams.update(params)
 fig,ax = plt.subplots()
 ax.bar(Sns_dt['x1'],Sns_dt['y1'],color='blue')
 ax.plot(Sns_dt2['x1'],Sns_dt2['y1'],marker='o',color='r',label="cumulative explained variance")
