@@ -12,7 +12,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-import matplotlib.pylab as pylab
 
 #import plotly
 #import plotly.plotly as py
@@ -26,7 +25,7 @@ import matplotlib.pylab as pylab
 #plotly.tools.set_credentials_file(username=Plotly_cred.Plotly_cred1[0],api_key=Plotly_cred.Plotly_cred1[1])
 
 # Corrlation Switch
-Is_Cov =True
+Is_Cov =False
 os.chdir("/Users/Apoorb/Documents/GitHub/Phase-1-Analysis--Anomaly-Detection")
 X=pd.read_excel("Project_dataset.xlsx",header=None)
 
@@ -80,17 +79,14 @@ Ncomp=15
 Sns_dt=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':var_exp[:Ncomp]})
 Sns_dt2=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':cum_var_exp[:Ncomp]
 })
-params = {'legend.fontsize': 'xx-large',
-         'axes.labelsize': 'xx-large',
-         'axes.titlesize':'xx-large',
-         'xtick.labelsize':'xx-large',
-         'ytick.labelsize':'xx-large'}
-pylab.rcParams.update(params)
 fig,ax = plt.subplots()
 ax.bar(Sns_dt['x1'],Sns_dt['y1'],color='blue')
-ax.plot(Sns_dt2['x1'],Sns_dt2['y1'],marker='o',color='r',label="cumulative explained variance")
+ax.plot(Sns_dt2['x1'],Sns_dt2['y1'],marker='o',color='r',label="Cumulative Explained Variance")
 ax.legend(loc='upper left', frameon=False)
-ax.set(xlabel="Principle Component",ylabel="Explained variance in %",title="Explained variance by difference principle components")
+ax.set(xlabel="Principle Component",ylabel="% Variance Explained",title="Variance Explained by Difference Principle Components")
+for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+              ax.get_xticklabels() + ax.get_yticklabels()):
+    item.set_fontsize(24)
 if Is_Cov:
     fig.savefig("ParetoPlt_Cov.png")
 else:
@@ -102,7 +98,10 @@ Sns_dt3=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':sorted(eig_vals,
 fig2,ax = plt.subplots()
 ax.plot(Sns_dt3['x1'],Sns_dt3['y1'],color='black')
 ax.plot(Sns_dt3['x1'],Sns_dt3['y1'],marker='o',color='black')
-ax.set(xlabel="Principle Component",ylabel="Eigen Value (Variance for\n a Principle Component)",title="Scree Plot")
+ax.set(xlabel="Principle Component",ylabel="Eigen Value (Variance for a Principle Component)",title="Scree Plot")
+for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+              ax.get_xticklabels() + ax.get_yticklabels()):
+    item.set_fontsize(24)
 if Is_Cov:
     fig2.savefig("ScreePlt_Cov.png")
 else:

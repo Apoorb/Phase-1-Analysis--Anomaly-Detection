@@ -46,11 +46,19 @@ def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.05,ulim=50):
     fig,ax = plt.subplots()
     ax.plot(Ind,T2,marker="o",label="Current Iteration")
     ax.axhline(y=UCL, color='r', linestyle='-')
-    ax.plot(OC_pnt.obs,OC_pnt.T2,'*r',label="Out-Control Points from Previous Iteration")
+    ax.plot(OC_pnt.obs,OC_pnt.T2,'*r',label="Out of Control Points from Previous Iteration")
     handles, labels = ax.get_legend_handles_labels()
     # reverse the order
-    ax.legend(handles[::-1], labels[::-1],loc='upper right')
-    ax.set(xlabel="Observation",ylabel=r"$T^2$",title=r"$T^2$ Chart with $\alpha$=0.05 (Iteration %s)"%iter1)
+    LARGE=24
+    ax.legend(handles[::-1], labels[::-1],loc='upper right',fontsize=20)
+    ax.set_xlabel("Observation",fontsize=LARGE)
+    ax.set_ylabel(r"$T^2$",fontsize=LARGE)
+    ax.set_title(r"$T^2$ Chart with $\alpha$=0.05 (Iteration %s)"%iter1,fontsize=LARGE)
+    # Set the font name for axis tick labels to be Comic Sans
+    for tick in ax.get_xticklabels():
+        tick.set_fontsize(LARGE)
+    for tick in ax.get_yticklabels():
+        tick.set_fontsize(LARGE)
     ax.set_ylim(0,ulim)
 #red_dot, = plt.plot(z, "ro", markersize=15)
 ## Put a white cross over some of the data.
@@ -94,13 +102,6 @@ Di_Res=dict()
 Di_ResF=dict()
 OC_cont=pd.DataFrame({"obs":[],"T2":[]})
 i=1
-params = {'legend.fontsize': 'xx-large',
-          'figure.figsize': (15,10),
-         'axes.labelsize': 'xx-large',
-         'axes.titlesize':'xx-large',
-         'xtick.labelsize':'xx-large',
-         'ytick.labelsize':'xx-large'}
-pylab.rcParams.update(params)
 while True:
     Res1=Phase1T2(df=dat,iter1=i,OC_pnt=OC_cont)
     Di_Res[i]=Res1["Ndf"]
