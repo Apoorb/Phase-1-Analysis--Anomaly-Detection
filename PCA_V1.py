@@ -29,6 +29,17 @@ Is_Cov =False
 os.chdir("/Users/Apoorb/Documents/GitHub/Phase-1-Analysis--Anomaly-Detection")
 X=pd.read_excel("Project_dataset.xlsx",header=None)
 
+figA,axA=plt.subplots()
+for i in range(0,X.shape[1]):
+    axA.plot(X.iloc[i,:])
+
+axA.set(xlabel="p",ylabel="$X_{ij}$",title="Plot of the 552 Observations")
+for item in ([axA.title, axA.xaxis.label, axA.yaxis.label] +
+              axA.get_xticklabels() + axA.get_yticklabels()):
+    item.set_fontsize(20)
+figA.savefig("DataPlot.png")
+
+
 # No need to standardize data in this case. But can be done using:
 if Is_Cov:
     X_std=X
@@ -83,10 +94,10 @@ fig,ax = plt.subplots()
 ax.bar(Sns_dt['x1'],Sns_dt['y1'],color='blue')
 ax.plot(Sns_dt2['x1'],Sns_dt2['y1'],marker='o',color='r',label="Cumulative Explained Variance")
 ax.legend(loc='upper left', frameon=False)
-ax.set(xlabel="Principle Component",ylabel="% Variance Explained",title="Variance Explained by Difference Principle Components")
+ax.set(xlabel="Principal Component",ylabel="% Variance Explained")
 for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
               ax.get_xticklabels() + ax.get_yticklabels()):
-    item.set_fontsize(24)
+    item.set_fontsize(16)
 if Is_Cov:
     fig.savefig("ParetoPlt_Cov.png")
 else:
@@ -98,10 +109,10 @@ Sns_dt3=pd.DataFrame({'x1':[(i+1) for i in range(0,Ncomp)],'y1':sorted(eig_vals,
 fig2,ax = plt.subplots()
 ax.plot(Sns_dt3['x1'],Sns_dt3['y1'],color='black')
 ax.plot(Sns_dt3['x1'],Sns_dt3['y1'],marker='o',color='black')
-ax.set(xlabel="Principle Component",ylabel="Eigen Value (Variance for a Principle Component)",title="Scree Plot")
+ax.set(xlabel="Principal Component",ylabel="Eigen Value (Variance)")
 for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
               ax.get_xticklabels() + ax.get_yticklabels()):
-    item.set_fontsize(24)
+    item.set_fontsize(16)
 if Is_Cov:
     fig2.savefig("ScreePlt_Cov.png")
 else:

@@ -27,7 +27,7 @@ else:
     dat=pd.read_csv("PrinCompDat_Correl.csv")#Correlation
 
 
-def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.05,ulim=50):
+def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.01,ulim=50):
     Ind=df.obs
     X=df.drop("obs",axis=1).copy()
     S=  np.cov(X.T) #Alternate way to get covariance
@@ -43,7 +43,7 @@ def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.05,ulim=50):
     #alpha=0.05
     dof=p
     UCL=chi2.ppf(1-alpha,dof)
-    fig,ax = plt.subplots(figsize=(20,10))
+    fig,ax = plt.subplots(figsize=(13,7))
     ax.plot(Ind,T2,marker="o",label="Current Iteration")
     ax.axhline(y=UCL, color='r', linestyle='-')
     ax.plot(OC_pnt.obs,OC_pnt.T2,'*r',label="Out of Control Points from Previous Iteration")
@@ -53,7 +53,7 @@ def Phase1T2(df,iter1,OC_pnt,p=3,alpha=0.05,ulim=50):
     ax.legend(handles[::-1], labels[::-1],loc='upper right',fontsize=20)
     ax.set_xlabel("Observation",fontsize=LARGE)
     ax.set_ylabel(r"$T^2$",fontsize=LARGE)
-    ax.set_title(r"$T^2$ Chart with $\alpha$=0.05 (Iteration %s)"%iter1,fontsize=LARGE)
+    #ax.set_title(r"$T^2$ Chart with $\alpha$=0.05 (Iteration %s)"%iter1,fontsize=LARGE)
     # Set the font name for axis tick labels to be Comic Sans
     for tick in ax.get_xticklabels():
         tick.set_fontsize(LARGE)
@@ -121,6 +121,7 @@ Di_ResF[6]
 Di_ResF[7]
 Di_ResF[8]
 Di_ResF[9]
+Di_ResF[10]
 
 for key in Di_ResF.keys():
     Di_ResF[key].savefig("T2Chart_Iter%s.png"%key)
@@ -137,7 +138,9 @@ Di_ResF[8]
 Di_ResF[9]
 
 #******************************************************************************
-IC_dat=np.array(Di_Res[9].obs)
+IC_dat=np.array(Di_Res[10].obs)
 all_dat=np.array(dat_cpy.obs.tolist())
 OC_obs=np.setdiff1d(all_dat,IC_dat)
 
+Di_Res[5].shape
+Di_Res[10].shape
